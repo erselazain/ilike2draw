@@ -1,0 +1,45 @@
+import string
+
+# kode soal
+KODE = "39IHD1G85"
+SIMBOL = string.digits + string.ascii_uppercase
+
+def koefisien(kode):
+    return [SIMBOL.index(k) for k in kode]
+
+def tulis_fungsi(k):
+    n = len(k) - 1
+    suku = []
+    for i, c in enumerate(k):
+        p = n - i
+        if c == 0:
+            continue
+        if p == 0:
+            suku.append(f"{c}")
+        elif p == 1:
+            suku.append(f"{c}x")
+        else:
+            suku.append(f"{c}x^{p}")
+    return " + ".join(suku)
+
+def hitung(k, x):
+    hasil = 0
+    for c in k:            # metode Horner
+        hasil = hasil * x + c
+    return hasil
+
+x = int(input("Masukkan angka penting: "))
+k = koefisien(KODE)
+n = len(k) - 1
+
+print("\n=== SOAL ===")
+print(f"Diketahui f(x) = {tulis_fungsi(k)}")
+print(f"Tentukan nilai f({x})!")
+
+print("\n=== PEMBAHASAN ===")
+for i, c in enumerate(k):
+    p = n - i
+    print(f"{c} x {x}^{p} = {c * x**p:,}".replace(",", "."))
+
+print("\n=== JAWABAN ===")
+print(f"f({x}) = {hitung(k, x)}")
